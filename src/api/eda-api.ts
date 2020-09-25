@@ -3,15 +3,6 @@ import { Study, StudyOverview } from "../types/study";
 
 const Studies = array(StudyOverview);
 
-/*
-Questions
-=========
-
-* What is the use of `/studies/{studyId}/{entityId}` since `/studies/{studyId}` includes rootEntity?
-* What is the response type of `POST /studies/{study-id}/{entity-id}`?
-
-*/
-
 export function getStudies(serviceUrl: string) {
   return [
     Studies,
