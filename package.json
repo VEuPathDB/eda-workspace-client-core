@@ -3,6 +3,16 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
-    "typescript": "^3.9.3"
+    "fp-ts": "^2.8.3",
+    "io-ts": "^2.2.10",
+    "react": "^16.13.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.49",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "eslint": "^7.8.1",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "typescript": "4"
   }
 }
