@@ -1,6 +1,7 @@
 import { TypeOf } from "io-ts";
 import { useCallback, useEffect, useState } from "react";
 import { Analysis } from "../types/analysis";
+import { Store } from "../utils/store";
 import { usePromise } from "./usePromise";
 
 export type Analysis = TypeOf<typeof Analysis>;
