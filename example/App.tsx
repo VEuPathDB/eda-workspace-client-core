@@ -1,5 +1,11 @@
 import { TypeOf } from "io-ts";
 import { useAnalysis } from "../src/hooks/useAnalysis";
+import { useInterval } from "../src/hooks/useInterval";
+import { useStudy } from "../src/hooks/useStudy";
+import { Analysis } from "../src/types/analysis";
+import { Study } from "../src/types/study";
+import { Store } from "../src/utils/store";
+
 // The following is a rough sketch of what the EDA Workspace App will look like.
 //
 // Hooks
@@ -7,11 +13,6 @@ import { useAnalysis } from "../src/hooks/useAnalysis";
 // * *useStudy* - fetches study record from backend
 // * *useAnalysis* - tracks state, provides updaters and actions. this can be composed of smaller hooks
 // * *useBackendSync* - synchronizes state with backend
-
-import { useStudy } from "../src/hooks/useStudy";
-import { Analysis } from "../src/types/analysis";
-import { Study } from "../src/types/study";
-import { Store } from "../src/utils/store";
 
 type Study = TypeOf<typeof Study>;
 type Analysis = TypeOf<typeof Analysis>;
@@ -38,6 +39,7 @@ function App(props: Props) {
 
     // error, not-found, loaded, in-progress
     status,
+    hasUnsavedChanges,
 
     // current config
     analysis,
@@ -56,11 +58,9 @@ function App(props: Props) {
     saveAnalysis
   } = useAnalysis(analysisStore, analysisId);
 
-  // We can show an indicator based on this status
-  const syncStatus = useBackendSync(analysis, {
-    updateIntervalSeconds: 10,
-    doUpdate: saveAnalysis
-  });
+  useInterval(function handler () {
+    if (hasUnsavedChanges) saveAnalysis();
+  }, 10000);
 
   return (
     <div className="eda-workspace">
