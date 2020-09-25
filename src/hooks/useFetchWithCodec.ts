@@ -2,6 +2,12 @@ import { Type } from "io-ts";
 import { useEffect, useState } from "react";
 import { fetchWithCodec } from "../utils/fetch";
 
+type Return<T> = {
+  value: T | undefined;
+  error: unknown;
+  isLoading: boolean;
+}
+
 /**
  * Call `fetch` and apply `codec` to the result. When `codec` or `input`
  * changes, the request is aborted.
@@ -9,7 +15,7 @@ import { fetchWithCodec } from "../utils/fetch";
  * @param codec An `io-ts` `Type` object
  * @param input See `fetch`
  */
-export function useFetchWithCodec<A>(codec: Type<A>, input: RequestInfo) {
+export function useFetchWithCodec<A>(codec: Type<A>, input: RequestInfo): Return<A> {
   const [value, setValue] = useState<A>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<unknown>();  

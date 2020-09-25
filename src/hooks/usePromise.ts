@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 
-export function usePromise<T>(promiseFactory: () => Promise<T>) {
+export type PromiseHookReturn<T> = {
+  value: T | undefined;
+  pending: boolean;
+  error: unknown;
+}
+
+export function usePromise<T>(promiseFactory: () => Promise<T>): PromiseHookReturn<T> {
   const [value, setValue] = useState<T>();
   const [error, setError] = useState<unknown>();
   const [pending, setPending] = useState(true);
