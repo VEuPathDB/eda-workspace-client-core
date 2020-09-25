@@ -1,6 +1,9 @@
-# VEuPathDB Workspace
+# VEuPathDB EDA Workspace Core
 
-The VEuPathDB Workspace is a pluggable application core that will be used to
-drive the ClinEpiDB and MapVEu Workspaces.
+The VEuPathDB EDA Workspace Core is a pluggable application core that will be used to
+drive the EDA and MapVEu Workspaces.
 
-This repo is a sketch for what this core might look like.
+This repo uses io-ts for modeling types, and exposed a set of React Hooks. The
+primary export of this application will likely be a React Component.
+
+_This is a work in progress, so some details are subject to change._
