@@ -5,14 +5,21 @@
   "dependencies": {
     "fp-ts": "^2.8.3",
     "io-ts": "^2.2.10",
-    "react": "^16.13.1"
+    "localforage": "^1.9.0",
+    "react": "^16.13.1",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.49",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "eslint": "^7.8.1",
     "eslint-plugin-react-hooks": "^4.1.2",
     "typescript": "4"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
   }
 }
