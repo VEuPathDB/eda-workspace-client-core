@@ -10,16 +10,22 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "^3.4.2",
+    "@types/jest": "^26.0.14",
     "@types/react": "^16.9.49",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "eslint": "^7.8.1",
     "eslint-plugin-react-hooks": "^4.1.2",
+    "jest": "^26.4.2",
+    "react-test-renderer": "^16.9.0",
+    "ts-jest": "^26.4.0",
     "typescript": "4"
   },
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   }
 }
