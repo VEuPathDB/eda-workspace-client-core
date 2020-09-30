@@ -15,7 +15,7 @@ export function useInterval(callback: () => void, intervalTimeMs: number): void 
   }, [callback]);
 
   useEffect(() => {
-    const id = setInterval(handler);
+    const id = setInterval(handler, intervalTimeMs);
 
     function handler() {
       callbackRef.current();
