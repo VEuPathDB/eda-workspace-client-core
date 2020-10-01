@@ -31,12 +31,23 @@ export function useAnalysis(store: AnalysisStore, analysisId: string): Return {
 
   useEffect(() => {
     setAnalysis(savedAnalysis.value);
-  }, [savedAnalysis]);
+  }, [savedAnalysis.value]);
+
+  const status = savedAnalysis.pending ? 'in-progress'
+  : savedAnalysis.error ? 'error'
+  : 'loaded';
 
   const useSetter = <T extends keyof Analysis>(properyName: T) => useCallback((value: Analysis[T]) => {
     setAnalysis(_a => _a && ({ ..._a, [properyName]: value }));
     setHasUnsavedChanges(true);
   }, [properyName]);
+
+  const setName = useSetter('name');
+  const setFilters = useSetter('filters');
+  const setVisualizations = useSetter('visualizations');
+  const setDerivedVariables = useSetter('derivedVariables');
+  const setStarredVariables = useSetter('starredVariables');
+  const setVariableUISettings = useSetter('variableUISettings');
 
   const saveAnalysis = useCallback(async () => {
     if (analysis == null) throw new Error("Attempt to save an analysis that hasn't been loaded.");
@@ -56,19 +67,17 @@ export function useAnalysis(store: AnalysisStore, analysisId: string): Return {
   }, [store, analysisId]);
 
   return {
-    status: savedAnalysis.pending ? 'in-progress'
-          : savedAnalysis.error ? 'error'
-          : 'loaded',
+    status,
     hasUnsavedChanges,
-    analysis: analysis,
-    setName: useSetter('name'),
-    setFilters: useSetter('filters'),
-    setVisualizations: useSetter('visualizations'),
-    setDerivedVariables: useSetter('derivedVariables'),
-    setStarredVariables: useSetter('starredVariables'),
-    setVariableUISettings: useSetter('variableUISettings'),
+    analysis,
+    setName,
+    setFilters,
+    setVisualizations,
+    setDerivedVariables,
+    setStarredVariables,
+    setVariableUISettings,
     copyAnalysis,
     deleteAnalysis,
     saveAnalysis
-  }
+  };
 }
