@@ -1,31 +1,35 @@
 import { useEffect, useState } from "react";
 
-export type PromiseHookReturn<T> = {
-  value: T | undefined;
+export type PromiseHookState<T> = {
+  value?: T;
   pending: boolean;
-  error: unknown;
+  error?: unknown;
 }
 
-export function usePromise<T>(promiseFactory: () => Promise<T>): PromiseHookReturn<T> {
-  const [value, setValue] = useState<T>();
-  const [error, setError] = useState<unknown>();
-  const [pending, setPending] = useState(true);
+export function usePromise<T>(promiseFactory: () => Promise<T>): PromiseHookState<T> {
+  const [state, setState] = useState<PromiseHookState<T>>({
+    pending: true,
+  })
   const [ignoreResolve, setIgnoreResolve] = useState(false);
   useEffect(() => {
     promiseFactory().then(
-      _value => {
+      value => {
         if (ignoreResolve) return;
-        setValue(_value);
-        setPending(false);
+        setState({
+          value,
+          pending: false,
+        });
       },
-      _error => {
+      error => {
         if (ignoreResolve) return;
-        setError(_error);
-        setPending(false);
+        setState({
+          error,
+          pending: false
+        });
       })
     return function cancel() {
       setIgnoreResolve(true);
     }
   }, [ignoreResolve, promiseFactory]);
-  return { value, error, pending };
+  return state;
 }
