@@ -13,7 +13,6 @@ export function makeMemoryStore<T>(): Store<T> {
     return id;
   }
   async function put(id: string, value: T): Promise<void> {
-    if (!(id in records)) throw new Error(`Not found: memory store does not have a record for ${id}.`);
     records[id] = value;
   }
   async function del(id: string): Promise<void> {
