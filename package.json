@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
+    "@types/lodash": "^4.14.161",
     "fp-ts": "^2.8.3",
     "io-ts": "^2.2.10",
     "localforage": "^1.9.0",
+    "lodash": "^4.17.20",
     "react": "^16.13.1",
     "uuid": "^8.3.0"
   },
