@@ -37,10 +37,10 @@ export function useAnalysis(store: AnalysisStore, analysisId: string): Return {
   : savedAnalysis.error ? 'error'
   : 'loaded';
 
-  const useSetter = <T extends keyof Analysis>(properyName: T) => useCallback((value: Analysis[T]) => {
-    setAnalysis(_a => _a && ({ ..._a, [properyName]: value }));
+  const useSetter = <T extends keyof Analysis>(propertyName: T) => useCallback((value: Analysis[T]) => {
+    setAnalysis(_a => _a && ({ ..._a, [propertyName]: value }));
     setHasUnsavedChanges(true);
-  }, [properyName]);
+  }, [propertyName]);
 
   const setName = useSetter('name');
   const setFilters = useSetter('filters');
