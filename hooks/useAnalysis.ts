@@ -7,8 +7,15 @@ import { AnalysisApi } from '../api/analysis-api';
 
 type Setter<T extends keyof Analysis> = (value: Analysis[T]) => void;
 
+export const enum Status {
+  InProgress = 'in-progress',
+  Error = 'error',
+  Loaded = 'loaded',
+  NotFound = 'not-found'
+}
+
 type Return = {
-  status: 'in-progress' | 'error' | 'loaded';
+  status: Status;
   hasUnsavedChanges: boolean;
   analysis: Analysis | undefined;
   undo: () => void;
@@ -39,9 +46,9 @@ export function useAnalysis(analysisId: string, api: AnalysisApi, request: ApiRe
     }
   }, [savedAnalysis.value]);
 
-  const status = savedAnalysis.pending ? 'in-progress'
-  : savedAnalysis.error ? 'error'
-  : 'loaded';
+  const status = savedAnalysis.pending ? Status.InProgress
+               : savedAnalysis.error   ? Status.Error
+               : Status.Loaded;
 
   const useSetter = <T extends keyof Analysis>(propertyName: T) => useCallback((value: Analysis[T]) => {
     setAnalysis(_a => _a && ({ ..._a, [propertyName]: value }));
