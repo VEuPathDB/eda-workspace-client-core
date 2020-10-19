@@ -34,7 +34,7 @@ type Return = {
 }
 
 export function useAnalysis(analysisId: string, api: AnalysisApi, request: ApiRequestHandler): Return {
-  const { state: analysis, set: setAnalysis, undo, redo, canUndo, canRedo } = useStateWithHistory<Analysis>({ size: 10 });
+  const { state: analysis, set: setAnalysis, undo: _undo, redo: _redo, canUndo, canRedo } = useStateWithHistory<Analysis>({ size: 10 });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const savedAnalysis = usePromise(useCallback((): Promise<Analysis> => {
     return request(api.getAnalysis(analysisId));
@@ -61,6 +61,16 @@ export function useAnalysis(analysisId: string, api: AnalysisApi, request: ApiRe
   const setDerivedVariables = useSetter('derivedVariables');
   const setStarredVariables = useSetter('starredVariables');
   const setVariableUISettings = useSetter('variableUISettings');
+
+  const undo = useCallback(() => {
+    _undo();
+    setHasUnsavedChanges(true);
+  }, [_undo]);
+
+  const redo = useCallback(() => {
+    _redo();
+    setHasUnsavedChanges(true);
+  }, [_undo]);
 
   const saveAnalysis = useCallback(async () => {
     if (analysis == null) throw new Error("Attempt to save an analysis that hasn't been loaded.");
