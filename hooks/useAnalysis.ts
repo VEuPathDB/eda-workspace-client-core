@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useStateWithHistory } from 'wdk-client/Hooks/StateWithHistory';
 import { Analysis } from "../types/analysis";
 import { usePromise } from "./usePromise";
 import { AnalysisApi } from '../api/analysis-api';
@@ -10,6 +11,10 @@ type Return = {
   status: 'in-progress' | 'error' | 'loaded';
   hasUnsavedChanges: boolean;
   analysis: Analysis | undefined;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
   setName: Setter<'name'>;
   setFilters: Setter<'filters'>;
   setVisualizations: Setter<'visualizations'>;
@@ -22,14 +27,16 @@ type Return = {
 }
 
 export function useAnalysis(analysisId: string, api: AnalysisApi, request: ApiRequestHandler): Return {
-  const [analysis, setAnalysis] = useState<Analysis>();
+  const { state: analysis, set: setAnalysis, undo, redo, canUndo, canRedo } = useStateWithHistory<Analysis>({ size: 10 });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const savedAnalysis = usePromise(useCallback((): Promise<Analysis> => {
     return request(api.getAnalysis(analysisId));
   }, [analysisId, api, request]));
 
   useEffect(() => {
-    setAnalysis(savedAnalysis.value);
+    if (savedAnalysis.value) {
+      setAnalysis(savedAnalysis.value);
+    }
   }, [savedAnalysis.value]);
 
   const status = savedAnalysis.pending ? 'in-progress'
@@ -69,6 +76,10 @@ export function useAnalysis(analysisId: string, api: AnalysisApi, request: ApiRe
     status,
     hasUnsavedChanges,
     analysis,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
     setName,
     setFilters,
     setVisualizations,
