@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 import { useStateWithHistory } from 'wdk-client/Hooks/StateWithHistory';
-import { Analysis } from "../types/analysis";
-import { usePromise } from "./usePromise";
-import { AnalysisApi } from '../api/analysis-api';
 import { ApiRequestHandler } from 'ebrc-client/util/api';
+import { Analysis } from '../types/analysis';
+import { usePromise } from './usePromise';
+import { AnalysisApi } from '../api/analysis-api';
 
 type Setter<T extends keyof Analysis> = (value: Analysis[T]) => void;
 
