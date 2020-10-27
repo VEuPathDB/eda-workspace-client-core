@@ -1,27 +1,24 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useStateWithHistory } from 'wdk-client/Hooks/StateWithHistory';
+import { createContext, useCallback, useEffect, useState } from 'react';
+import { useStateWithHistory, StateWithHistory } from 'wdk-client/Hooks/StateWithHistory';
 import { ApiRequestHandler } from 'ebrc-client/util/api';
 import { Analysis } from '../types/analysis';
 import { usePromise } from './usePromise';
 import { AnalysisApi } from '../api/analysis-api';
+import { useNonNullableContext } from './useNonNullableContext';
 
 type Setter<T extends keyof Analysis> = (value: Analysis[T]) => void;
 
 export const enum Status {
   InProgress = 'in-progress',
-  Error = 'error',
   Loaded = 'loaded',
-  NotFound = 'not-found'
+  NotFound = 'not-found',
+  Error = 'error',
 }
 
-type Return = {
+export type AnalysisState = {
   status: Status;
   hasUnsavedChanges: boolean;
-  analysis: Analysis | undefined;
-  undo: () => void;
-  redo: () => void;
-  canUndo: boolean;
-  canRedo: boolean;
+  history: Omit<StateWithHistory<Analysis|undefined>, 'setCurrent'>;
   setName: Setter<'name'>;
   setFilters: Setter<'filters'>;
   setVisualizations: Setter<'visualizations'>;
@@ -33,16 +30,26 @@ type Return = {
   saveAnalysis: () => Promise<void>;
 }
 
-export function useAnalysis(analysisId: string, api: AnalysisApi, request: ApiRequestHandler): Return {
-  const { state: analysis, set: setAnalysis, undo: _undo, redo: _redo, canUndo, canRedo } = useStateWithHistory<Analysis>({ size: 10 });
+export const AnalysisContext = createContext<AnalysisState | undefined>(undefined);
+
+export function useAnalysis() {
+  return useNonNullableContext(AnalysisContext);
+}
+
+export function useAnalysisState(analysisId: string, api: AnalysisApi, request: ApiRequestHandler): AnalysisState {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const history = useStateWithHistory<Analysis>({
+    size: 10,
+    onUndo: useCallback(() => setHasUnsavedChanges(true), [setHasUnsavedChanges]),
+    onRedo: useCallback(() => setHasUnsavedChanges(true), [setHasUnsavedChanges])
+  });
   const savedAnalysis = usePromise(useCallback((): Promise<Analysis> => {
     return request(api.getAnalysis(analysisId));
   }, [analysisId, api, request]));
 
   useEffect(() => {
     if (savedAnalysis.value) {
-      setAnalysis(savedAnalysis.value);
+      history.setCurrent(savedAnalysis.value);
     }
   }, [savedAnalysis.value]);
 
@@ -51,7 +58,7 @@ export function useAnalysis(analysisId: string, api: AnalysisApi, request: ApiRe
                : Status.Loaded;
 
   const useSetter = <T extends keyof Analysis>(propertyName: T) => useCallback((value: Analysis[T]) => {
-    setAnalysis(_a => _a && ({ ..._a, [propertyName]: value }));
+    history.setCurrent(_a => _a && ({ ..._a, [propertyName]: value }));
     setHasUnsavedChanges(true);
   }, [propertyName]);
 
@@ -62,28 +69,18 @@ export function useAnalysis(analysisId: string, api: AnalysisApi, request: ApiRe
   const setStarredVariables = useSetter('starredVariables');
   const setVariableUISettings = useSetter('variableUISettings');
 
-  const undo = useCallback(() => {
-    _undo();
-    setHasUnsavedChanges(true);
-  }, [_undo]);
-
-  const redo = useCallback(() => {
-    _redo();
-    setHasUnsavedChanges(true);
-  }, [_undo]);
-
   const saveAnalysis = useCallback(async () => {
-    if (analysis == null) throw new Error("Attempt to save an analysis that hasn't been loaded.");
-    await request(api.updateAnalysis(analysis));
+    if (history.current == null) throw new Error("Attempt to save an analysis that hasn't been loaded.");
+    await request(api.updateAnalysis(history.current));
     setHasUnsavedChanges(false);
-  }, [api, request, analysis])
+  }, [api, request, history.current])
 
   const copyAnalysis = useCallback(async () => {
-    if (analysis == null) throw new Error("Attempt to copy an analysis that hasn't been loaded.");
+    if (history.current == null) throw new Error("Attempt to copy an analysis that hasn't been loaded.");
     if (hasUnsavedChanges) await saveAnalysis();
-    const {id} = await request(api.createAnalysis(analysis));
+    const {id} = await request(api.createAnalysis(history.current));
     return id;
-  }, [api, request, analysis, saveAnalysis, hasUnsavedChanges]);
+  }, [api, request, history.current, saveAnalysis, hasUnsavedChanges]);
 
   const deleteAnalysis = useCallback(async () => {
     return request(api.deleteAnalysis(analysisId));
@@ -91,12 +88,8 @@ export function useAnalysis(analysisId: string, api: AnalysisApi, request: ApiRe
 
   return {
     status,
+    history,
     hasUnsavedChanges,
-    analysis,
-    undo,
-    redo,
-    canUndo,
-    canRedo,
     setName,
     setFilters,
     setVisualizations,
