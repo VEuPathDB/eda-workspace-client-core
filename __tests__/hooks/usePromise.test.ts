@@ -9,10 +9,18 @@ function delay<T>(value: T, time: number) {
   });
 }
 
+function resolve() {
+  return Promise.resolve(10);
+}
+
+function reject() {
+  return Promise.reject('error');
+}
+
 describe('usePromise', () => {
 
   it('should handle resolve', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => usePromise(() => Promise.resolve(10)));
+    const { result, waitForNextUpdate } = renderHook(() => usePromise(resolve));
     expect(result.current.pending).toBe(true);
     await waitForNextUpdate();
     expect(result.current.value).toBe(10);
@@ -21,7 +29,7 @@ describe('usePromise', () => {
   });
 
   it('should handle reject', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => usePromise(() => Promise.reject('error')));
+    const { result, waitForNextUpdate } = renderHook(() => usePromise(reject));
     expect(result.current.pending).toBe(true);
     await waitForNextUpdate();
     expect(result.current.value).toBeUndefined();

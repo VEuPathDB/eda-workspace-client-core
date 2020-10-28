@@ -10,8 +10,8 @@ export function usePromise<T>(promiseFactory: () => Promise<T>): PromiseHookStat
   const [state, setState] = useState<PromiseHookState<T>>({
     pending: true,
   })
-  const [ignoreResolve, setIgnoreResolve] = useState(false);
   useEffect(() => {
+    let ignoreResolve = false;
     promiseFactory().then(
       value => {
         if (ignoreResolve) return;
@@ -27,9 +27,9 @@ export function usePromise<T>(promiseFactory: () => Promise<T>): PromiseHookStat
           pending: false
         });
       })
-    return function cancel() {
-      setIgnoreResolve(true);
+    return function cleanup() {
+      ignoreResolve = true;
     }
-  }, [ignoreResolve, promiseFactory]);
+  }, [promiseFactory]);
   return state;
 }
