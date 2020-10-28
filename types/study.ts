@@ -1,4 +1,11 @@
 import * as t from 'wdk-client/Utils/Json';
+import { RecordClass, RecordInstance } from 'wdk-client/Utils/WdkModel';
+
+// Aliases
+// -------
+
+export type StudyRecordClass = RecordClass;
+export type StudyRecord = RecordInstance;
 
 // VariablesTree
 // -------------
@@ -32,8 +39,8 @@ export const StudyEntity = t.combine(_StudyEntityBase, t.record({
 }));
 
 
-// Study
-// -----
+// StudyMetadata
+// -------------
 
 export type StudyOverview = t.Unpack<typeof StudyOverview>;
 export const StudyOverview = t.record({
@@ -41,7 +48,7 @@ export const StudyOverview = t.record({
   name: t.string,
 });
 
-export type Study = t.Unpack<typeof Study>;
-export const Study = t.combine(StudyOverview, t.record({
+export type StudyMetadata = t.Unpack<typeof StudyMetadata>;
+export const StudyMetadata = t.combine(StudyOverview, t.record({
   rootEntity: StudyEntity
 }));

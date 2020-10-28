@@ -1,12 +1,12 @@
 import { ApiRequest, createJsonRequest, standardTransformer } from 'ebrc-client/util/api';
 import { arrayOf, number, record, Unpack } from 'wdk-client/Utils/Json';
 import { Filter } from '../types/filter';
-import { Study } from "../types/study";
+import { StudyMetadata } from "../types/study";
 
 export type StudyResponse = Unpack<typeof StudyResponse>;
 
 export const StudyResponse = record({
-  study: Study
+  study: StudyMetadata
 });
 
 
