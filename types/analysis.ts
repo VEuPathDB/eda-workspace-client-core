@@ -13,6 +13,7 @@ export const Visualization = t.unknown;
 export type NewAnalysis = t.Unpack<typeof NewAnalysis>;
 export const NewAnalysis = t.record({
   name: t.string,
+  studyId: t.string,
   filters: t.arrayOf(Filter),
   derivedVariables: t.arrayOf(DerviedVariable),
   starredVariables: t.arrayOf(t.string),
@@ -23,4 +24,6 @@ export const NewAnalysis = t.record({
 export type Analysis = t.Unpack<typeof Analysis>;
 export const Analysis = t.combine(NewAnalysis, t.record({
   id: t.string,
+  created: t.string,
+  modified: t.string
 }));

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export type PromiseHookState<T> = {
   value?: T;
@@ -6,13 +6,14 @@ export type PromiseHookState<T> = {
   error?: unknown;
 }
 
-export function usePromise<T>(promiseFactory: () => Promise<T>): PromiseHookState<T> {
+export function usePromise<T>(promiseFactory: () => Promise<T>, deps?: unknown[]): PromiseHookState<T> {
   const [state, setState] = useState<PromiseHookState<T>>({
     pending: true,
-  })
+  });
+  const callback = deps ? useCallback(promiseFactory, deps) : promiseFactory;
   useEffect(() => {
     let ignoreResolve = false;
-    promiseFactory().then(
+    callback().then(
       value => {
         if (ignoreResolve) return;
         setState({
@@ -30,6 +31,6 @@ export function usePromise<T>(promiseFactory: () => Promise<T>): PromiseHookStat
     return function cleanup() {
       ignoreResolve = true;
     }
-  }, [promiseFactory]);
+  }, [callback]);
   return state;
 }
