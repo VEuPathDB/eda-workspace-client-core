@@ -970,9 +970,9 @@
     eslint-visitor-keys "^2.0.0"
 
 "@veupathdb/wdk-client@^0.1.1-alpha.4":
-  version "0.1.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@veupathdb/wdk-client/-/wdk-client-0.1.1-alpha.4.tgz#eb6ebfcbfc003f356b2077667bbc0a344f7ccd20"
-  integrity sha512-WjrhZ0IfnWm3M6r39C5G4AzE+AksLXNcUKvFXk7d5ZQJYycaxrIUYepFH+qFzk/bSuCRQAxN0tnobTI05AYNCA==
+  version "0.1.1-alpha.5"
+  resolved "https://registry.yarnpkg.com/@veupathdb/wdk-client/-/wdk-client-0.1.1-alpha.5.tgz#318e16878f7d64fb5024483a51f70671567a92a4"
+  integrity sha512-hZQujBh5f613ROZwWMT9VC8Xh7BL6IWdMnLJ8uXYWvrOFqGdaY5/V/KM7TL+ULPHXZR/21pnL+b7Yv8a2p35FQ==
   dependencies:
     "@types/datatables.net" "^1.10.5"
     "@types/flot" "^0.0.31"
@@ -4836,9 +4836,9 @@ object-copy@^0.1.0:
     kind-of "^3.0.3"
 
 object-inspect@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.8.0.tgz#df807e5ecf53a609cc6bfe93eac3cc7be5b3a9d0"
-  integrity sha512-jLdtEOB112fORuypAyl/50VRVIBIdVQOSUUGQHzJ4xBSbit81zRarz7GThkEFZy1RceYrWYcPcBFPQwHyAc1gA==
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.9.0.tgz#c90521d74e1127b67266ded3394ad6116986533a"
+  integrity sha512-i3Bp9iTqwhaLZBxGkRfo5ZbE07BQRT7MGu8+nNgwW9ItGp1TzCTw2DLEoWwjClxBjOFI/hWljTAmYGCEwmtnOw==
 
 object-keys@^1.0.12, object-keys@^1.1.1:
   version "1.1.1"
