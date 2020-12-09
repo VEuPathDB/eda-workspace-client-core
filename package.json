@@ -2,12 +2,13 @@
   "name": "@veupathdb/eda-workspace-core",
   "version": "0.0.1",
   "description": "Core utilities for creating a VEuPathDB EDA Workspace application.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc -p tsconfig.build.json"
   },
   "author": "",
   "license": "Apache-2.0",
