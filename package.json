@@ -1,6 +1,6 @@
 {
   "name": "@veupathdb/eda-workspace-core",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.2-alpha.2",
   "description": "Core utilities for creating a VEuPathDB EDA Workspace application.",
   "main": "lib/index.js",
   "directories": {
