@@ -1024,9 +1024,9 @@
     ts-jest "^23.1.2"
 
 "@veupathdb/web-common@^0.1.1-alpha.2":
-  version "0.1.1-alpha.2"
-  resolved "https://registry.yarnpkg.com/@veupathdb/web-common/-/web-common-0.1.1-alpha.2.tgz#e87eb045bff2de60ea7b23e495c7ec06d5d4a387"
-  integrity sha512-/X2bWJtxj1wGYciYRIO23Zpe0Fpxdx740mhfcyDxFyDW94Lz2drx9vlYeCuVAERd9FumpLO66JCLaibDZ3jcQw==
+  version "0.1.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/@veupathdb/web-common/-/web-common-0.1.1-alpha.4.tgz#946b9728538f5e8c1603075ee2acb6effeadc7d0"
+  integrity sha512-wPKfiTlia4OhJWqbEqQeXrlQ8nPMsQkOgaWFKy6ZFNlMzsrdY1h36TOSntcDv8MdbTrBLG/VwWPRP/DljwXZeQ==
   dependencies:
     custom-event-polyfill "^1.0.7"
     md5 "^2.3.0"
