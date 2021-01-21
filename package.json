@@ -5,10 +5,14 @@
   "main": "lib/index",
   "typings": "lib/index",
   "module": "lib/index.js",
-  "es2015": "lin/index.js",
+  "es2015": "lib/index.js",
   "directories": {
     "test": "test"
   },
+  "files": [
+    "src",
+    "lib"
+  ],
   "scripts": {
     "test": "jest",
     "build": "tsc -p tsconfig.build.json"
