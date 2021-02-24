@@ -2,6 +2,10 @@
   "name": "@veupathdb/eda-workspace-core",
   "version": "0.0.2-alpha.20",
   "description": "Core utilities for creating a VEuPathDB EDA Workspace application.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VEuPathDB/eda-workspace-client-core"
+  },
   "main": "lib/index",
   "typings": "lib/index",
   "module": "lib/index.js",
